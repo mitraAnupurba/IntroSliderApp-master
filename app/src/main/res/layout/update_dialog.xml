@@ -40,15 +40,51 @@
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp" />
 
-    <EditText
-        android:id="@+id/exam_name_edittext_update"
+    <TextView
+        android:id="@+id/exam_name_textView_updateDialog"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="24dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/custon_edittext"
+        android:hint="Update Exam You Are Prepering For"
         android:textAlignment="center"
         android:textColor="@android:color/holo_blue_dark"
         android:textSize="24sp" />
+
+    <Spinner
+        android:id="@+id/select_exam_spinner_update_student"
+        android:background="@color/color_inactive_dots"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        />
+
+    <!--
+    <TextView
+        android:id="@+id/coaching_name_textView_update_dialog"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="24dp"
+        android:layout_marginBottom="8dp"
+        android:background="@drawable/custon_edittext"
+        android:hint="Click to The Coaching Institute You Are Currently Taking"
+        android:textAlignment="center"
+        android:textColor="@android:color/holo_blue_dark"
+        android:textSize="24sp" /> -->
+
+
+
+    <Spinner
+        android:id="@+id/select_coaching_spinner_update_student"
+        android:background="@color/color_inactive_dots"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="14dp"
+        android:layout_marginBottom="14dp"
+        />
 
 </LinearLayout>

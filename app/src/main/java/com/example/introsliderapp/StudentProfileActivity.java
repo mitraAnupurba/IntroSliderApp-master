@@ -13,13 +13,27 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RatingBar;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.introsliderapp.model.BankExamInstitute;
+import com.example.introsliderapp.model.CollegePlacementTraininhInstitute;
+import com.example.introsliderapp.model.ComerceExamInstitute;
+import com.example.introsliderapp.model.EngineeringExamInstitute;
+import com.example.introsliderapp.model.GREInstitute;
+import com.example.introsliderapp.model.IITJEEInstitute;
+import com.example.introsliderapp.model.ManagementExamInstitute;
+import com.example.introsliderapp.model.MedicalEntranceInstitute;
+import com.example.introsliderapp.model.NeetPGInstitute;
+import com.example.introsliderapp.model.ScienceExamInstitute;
 import com.example.introsliderapp.model.Student;
+import com.example.introsliderapp.model.UpscInstitute;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -47,17 +61,24 @@ public class StudentProfileActivity extends AppCompatActivity {
     //edittext's for update dialog:
         private EditText phoneNumberStudentUpdate
                 ,userNameStudentUpdate,
-                instNameStudentUpdate,examNameStudentUpdate,reviewStudentEdittext;
+                instNameStudentUpdate,
+            reviewStudentEdittext;
+    //textViews for the update student dialog:
+        private TextView choseExamNameUpdateDialog,choseCoachingNameUpdateDialog;
+    //Spinner for update dialog
+        private Spinner spinnerStudentUpdateDialog,spinnerStudentCoachingDialog;
     //test view for user data display
         private TextView emailAddressStudent,phoneNumberStudent,userNameStudent,
-                            dobStudent,instNameStudent,examNameStudent;
+                            dobStudent,instNameStudent
+                        ,examNameStudent,coachingNameStudent;
 
     //strings for initial data store and display:
-        private String email,phNumber,userName,dob,instName,examName;
+        private String email,phNumber,userName,dob,instName,examName,coachingName;
 
     //strings for updated value:
         private String phNumberUpdatedValue,userNameUpdatedValue
-                ,instNameUpdatedValue,examNameUpdatedValue;
+                ,instNameUpdatedValue,examNameUpdatedValue
+            ,coachingNameUpdatedValue;
 
     //variable to get the rating and review:
         private String studentReview;
@@ -90,6 +111,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         instNameStudent = this.findViewById(R.id.institute_name_textView);
         examNameStudent = this.findViewById(R.id.exam_name_textView);
         toolbar = this.findViewById(R.id.toolbar_student_profile);
+        coachingNameStudent = this.findViewById(R.id.coaching_name_textView);
     }
     //Function to initialise the view components ends here.
 
@@ -102,6 +124,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         dobStudent.setText("Date Of Birth"+dob);
         instNameStudent.setText("Institute Name : "+instName);
         examNameStudent.setText("Exam Preparing For : "+examName);
+        coachingNameStudent.setText("Coaching Institute Studying In:"+coachingName);
         toolbar.setTitle(userName);
         toolbar.setSubtitle("welcome");
     }
@@ -155,18 +178,41 @@ public class StudentProfileActivity extends AppCompatActivity {
         phoneNumberStudentUpdate = v.findViewById(R.id.phone_number_edittext_update);
         userNameStudentUpdate = v.findViewById(R.id.user_name_edittext_update);
         instNameStudentUpdate = v.findViewById(R.id.institute_name_edittext_update);
-        examNameStudentUpdate = v.findViewById(R.id.exam_name_edittext_update);
+        choseExamNameUpdateDialog = v.findViewById(R.id.exam_name_textView_updateDialog);
+        //choseCoachingNameUpdateDialog = v.findViewById(R.id.coaching_name_textView_update_dialog);
+        spinnerStudentUpdateDialog = v.findViewById(R.id.select_exam_spinner_update_student);
+        spinnerStudentCoachingDialog = v.findViewById(R.id.select_coaching_spinner_update_student);
 
         //seting default values to the view items:
         phoneNumberStudentUpdate.setText(phNumber);
         userNameStudentUpdate.setText(userName);
         instNameStudentUpdate.setText(instName);
-        examNameStudentUpdate.setText(examName);
+
+        //setting array adapter for spinnerStudentUpdateDialog:
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(StudentProfileActivity.this, R.array.list_of_exams, android.R.layout.simple_spinner_item);
+        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        spinnerStudentUpdateDialog.setAdapter(adapter);
+        spinnerStudentUpdateDialog.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                examNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                Log.d(TAG,examNameUpdatedValue);
+                initLists(examNameUpdatedValue);
+                setSpinnerCoachingContent(examNameUpdatedValue);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        });
+
 
 
         //code for creating the alert dialog and adding finctionality to it:
         updateDialog.setView(v);
-        updateDialog.setTitle("UPDATE VALUES: Email and D.O.B are NON Editable");
+        updateDialog.setTitle("UPDATE");
+        updateDialog.setMessage("UPDATE VALUES: Email and D.O.B are NON Editable");
         updateDialog.create();
         updateDialog.setPositiveButton("UPDATE", new DialogInterface.OnClickListener() {
             @Override
@@ -176,7 +222,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 phNumberUpdatedValue = phoneNumberStudentUpdate.getText().toString().trim();
                 userNameUpdatedValue = userNameStudentUpdate.getText().toString().trim();
                 instNameUpdatedValue = instNameStudentUpdate.getText().toString().trim();
-                examNameUpdatedValue = examNameStudentUpdate.getText().toString().trim();
+
 
                 //validation for the updated data entries
                 if(phNumberUpdatedValue.isEmpty()){
@@ -194,21 +240,18 @@ public class StudentProfileActivity extends AppCompatActivity {
                     instNameStudentUpdate.requestFocus();
 
                 }
-                else if(examNameUpdatedValue.isEmpty()){
-                    examNameStudentUpdate.setError("field is empty");
-                    examNameStudentUpdate.requestFocus();
-
-                }//validation ends here
+                //validation ends here
                 else{
                         //function call for the update data functionality:
                         updateData(phNumberUpdatedValue,userNameUpdatedValue
-                        ,instNameUpdatedValue,examNameUpdatedValue);
+                        ,instNameUpdatedValue,examNameUpdatedValue,coachingNameUpdatedValue);
 
                         //setting the updated values in the main users profile page:
                         phoneNumberStudent.setText(phNumberUpdatedValue);
                         userNameStudent.setText(userNameUpdatedValue);
                         instNameStudent.setText(instNameUpdatedValue);
                         examNameStudent.setText(examNameUpdatedValue);
+                        coachingNameStudent.setText(coachingNameUpdatedValue);
                 }
 
 
@@ -227,13 +270,414 @@ public class StudentProfileActivity extends AppCompatActivity {
     }
     //function to create and show the update dialog ends here.
 
+
+    //function to initialise the array lists of institutes:
+    private void initLists(final String examNameUpdatedValue){
+
+        DatabaseReference mRef =
+                FirebaseDatabase.getInstance().getReference("users")
+                        .child("institute").child(examNameUpdatedValue);
+        mRef.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+
+                switch(examNameUpdatedValue){
+
+                    case "IIT-JEE":
+                        StudentSignUpActivity.iitjeeInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            IITJEEInstitute inst = snapshot.getValue(IITJEEInstitute.class);
+                            StudentSignUpActivity.iitjeeInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.iitjeeInstitutes.toString());
+                        break;
+
+                    case "Medical Entrance Exams":
+                        StudentSignUpActivity.medicalEntranceInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            MedicalEntranceInstitute inst = snapshot.getValue(MedicalEntranceInstitute.class);
+                            StudentSignUpActivity.medicalEntranceInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.medicalEntranceInstitutes.toString());
+                        break;
+
+                    case "GATE-IES-ESE":
+                        StudentSignUpActivity.engineeringExamInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            EngineeringExamInstitute inst = snapshot.getValue(EngineeringExamInstitute.class);
+                            StudentSignUpActivity.engineeringExamInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.engineeringExamInstitutes.toString());
+                        break;
+
+                    case "NEET-PG":
+                        StudentSignUpActivity.neetPGInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            NeetPGInstitute inst = snapshot.getValue(NeetPGInstitute.class);
+                            StudentSignUpActivity.neetPGInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.neetPGInstitutes.toString());
+                        break;
+
+                    case "Comerce":
+                        StudentSignUpActivity.comerceExamInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            ComerceExamInstitute inst = snapshot.getValue(ComerceExamInstitute.class);
+                            StudentSignUpActivity.comerceExamInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.comerceExamInstitutes.toString());
+                        break;
+
+                    case "JRF-NET":
+                        StudentSignUpActivity.scienceExamInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            ScienceExamInstitute inst = snapshot.getValue(ScienceExamInstitute.class);
+                            StudentSignUpActivity.scienceExamInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.scienceExamInstitutes.toString());
+                        break;
+
+                    case "UPSC-ICS":
+                        StudentSignUpActivity.upscInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            UpscInstitute inst = snapshot.getValue(UpscInstitute.class);
+                            StudentSignUpActivity.upscInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.upscInstitutes.toString());
+                        break;
+
+                    case "BANK-SBI-PO":
+                        StudentSignUpActivity.bankExamInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            BankExamInstitute inst = snapshot.getValue(BankExamInstitute.class);
+                            StudentSignUpActivity.bankExamInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.bankExamInstitutes.toString());
+                        break;
+
+                    case "College Placements":
+                        StudentSignUpActivity.collegePlacementTraininhInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            CollegePlacementTraininhInstitute inst =
+                                    snapshot.getValue(CollegePlacementTraininhInstitute.class);
+                            StudentSignUpActivity.collegePlacementTraininhInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.collegePlacementTraininhInstitutes.toString());
+                        break;
+
+                    case "GRE-IELTS":
+                        StudentSignUpActivity.greInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            GREInstitute inst = snapshot.getValue(GREInstitute.class);
+                            StudentSignUpActivity.greInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.greInstitutes.toString());
+                        break;
+
+                    case "CAT-MAT":
+                        StudentSignUpActivity.managementExamInstitutes.clear();
+                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                            ManagementExamInstitute inst = snapshot.getValue(ManagementExamInstitute.class);
+                            StudentSignUpActivity.managementExamInstitutes.add(inst);
+
+                        }
+                        Log.d(TAG,StudentSignUpActivity.managementExamInstitutes.toString());
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+    //function to initialise the array lists of institutes:
+
+    //function to set content of the spinner dynamically:
+    private void setSpinnerCoachingContent(String examNameUpdatedValue){
+
+        Log.d(TAG,"Enters Select Spinner Content");
+        switch(examNameUpdatedValue){
+
+            case "IIT-JEE":
+                ArrayAdapter<IITJEEInstitute> adapter = new ArrayAdapter<IITJEEInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.iitjeeInstitutes);
+                adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter);
+                adapter.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener);
+                break;
+
+            case "Medical Entrance Exams":
+                Log.d(TAG,"Enters Medical Entrance Exams");
+                ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.medicalEntranceInstitutes);
+                adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter1);
+                adapter1.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener1 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener1);
+                break;
+
+            case "GATE-IES-ESE":
+                ArrayAdapter<EngineeringExamInstitute> adapter2 = new ArrayAdapter<EngineeringExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.engineeringExamInstitutes);
+                adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter2);
+                adapter2.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener2 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener2);
+                break;
+
+            case "NEET-PG":
+                ArrayAdapter<NeetPGInstitute> adapter3 = new ArrayAdapter<NeetPGInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.neetPGInstitutes);
+                adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter3);
+                adapter3.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener3 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener3);
+                break;
+
+            case "Comerce":
+                ArrayAdapter<ComerceExamInstitute> adapter4 = new ArrayAdapter<ComerceExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.comerceExamInstitutes);
+                adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter4);
+                adapter4.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener4 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener4);
+                break;
+
+            case "JRF-NET":
+                ArrayAdapter<ScienceExamInstitute> adapter5 = new ArrayAdapter<ScienceExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.scienceExamInstitutes);
+                adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter5);
+                adapter5.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener5 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener5);
+                break;
+
+            case "UPSC-ICS":
+                ArrayAdapter<UpscInstitute> adapter6 = new ArrayAdapter<UpscInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.upscInstitutes);
+                adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter6);
+                adapter6.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener6 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener6);
+                break;
+
+            case "BANK-SBI-PO":
+                ArrayAdapter<BankExamInstitute> adapter7 = new ArrayAdapter<BankExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.bankExamInstitutes);
+                adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter7);
+                adapter7.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener7 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener7);
+                break;
+
+            case "College Placements":
+                ArrayAdapter<CollegePlacementTraininhInstitute> adapter8 = new ArrayAdapter<CollegePlacementTraininhInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.collegePlacementTraininhInstitutes);
+                adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter8);
+                adapter8.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener8 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener8);
+                break;
+
+            case "GRE-IELTS":
+                ArrayAdapter<GREInstitute> adapter9 = new ArrayAdapter<GREInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.greInstitutes);
+                adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter9);
+                adapter9.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener9 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener9);
+                break;
+
+            case "CAT-MAT":
+                ArrayAdapter<ManagementExamInstitute> adapter10 = new ArrayAdapter<ManagementExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.managementExamInstitutes);
+                adapter10.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                spinnerStudentCoachingDialog.setAdapter(adapter10);
+                adapter10.notifyDataSetChanged();
+                AdapterView.OnItemSelectedListener listener10 = new AdapterView.OnItemSelectedListener() {
+                    @Override
+                    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+
+                        coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
+                        Log.d(TAG, coachingNameUpdatedValue);
+                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
+                    }
+
+                    @Override
+                    public void onNothingSelected(AdapterView<?> parent) {
+
+                    }
+                };
+                spinnerStudentCoachingDialog.setOnItemSelectedListener(listener10);
+                break;
+        }
+
+
+    }
+    //function to set the content of dynamic spinner named : spinner coaching ends here
+
+
     //function to update the data of users and storing it in firebase database:
-    private void updateData(String phNumberUpdatedValue, String userNameUpdatedValue, String instNameUpdatedValue, String examNameUpdatedValue) {
+    private void updateData(String phNumberUpdatedValue, String userNameUpdatedValue, String instNameUpdatedValue, String examNameUpdatedValue,String coachingNameUpdatedValue) {
 
         DatabaseReference mRef = FirebaseDatabase.getInstance()
                 .getReference("users").child("student").child(uid);
         Student updatedStudent = new Student(userNameUpdatedValue,email,phNumberUpdatedValue
-                            ,instNameUpdatedValue,examNameUpdatedValue,dob);
+                            ,instNameUpdatedValue,examNameUpdatedValue,dob,coachingNameUpdatedValue);
         mRef.setValue(updatedStudent).addOnCompleteListener(new OnCompleteListener<Void>() {
             @Override
             public void onComplete(@NonNull Task<Void> task) {
@@ -360,7 +804,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 dob = student.getDobStudent();
                 instName = student.getInstituteNameStudent();
                 examName = student.getExamName();
-
+                coachingName = student.getCoachingInstituteName();
                 setViews();
 
                 //logs display for testing:
@@ -371,6 +815,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 Log.d(TAG,"Phone Number : " + phNumber);
                 Log.d(TAG,"Institute Name : "+instName);
                 Log.d(TAG,"Exam Preparing For : " + examName);
+                Log.d(TAG,"Coaching Institute : " + coachingName);
             }
 
             @Override

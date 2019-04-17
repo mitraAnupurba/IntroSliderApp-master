@@ -6,15 +6,19 @@ public class Student {
     private String review;
 
     String userNameStudent,emailAddressStudent,
-            phoneNumberStudent,instituteNameStudent,examName,dob;
+            phoneNumberStudent,instituteNameStudent,examName,dob,
+            coachingInstituteName;
 
-    public Student(String userNameStudent, String emailAddressStudent, String phoneNumberStudent, String instituteNameStudent,String examName,String dob) {
+    public Student(String userNameStudent, String emailAddressStudent, String phoneNumberStudent, String instituteNameStudent,String examName,String dob,String coachingInstituteName) {
         this.userNameStudent = userNameStudent;
         this.emailAddressStudent = emailAddressStudent;
         this.phoneNumberStudent = phoneNumberStudent;
         this.instituteNameStudent = instituteNameStudent;
         this.examName = examName;
         this.dob = dob;
+        this.coachingInstituteName = coachingInstituteName;
+
+
     }
 
     public Student() {
@@ -42,6 +46,10 @@ public class Student {
 
     public String getDobStudent() {
         return dob;
+    }
+
+    public String getCoachingInstituteName() {
+        return coachingInstituteName;
     }
 
     public void setRating(float rating) {

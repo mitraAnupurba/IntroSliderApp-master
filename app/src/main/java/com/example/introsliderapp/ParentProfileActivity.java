@@ -104,7 +104,8 @@ public class ParentProfileActivity extends AppCompatActivity {
 
         switch(item.getItemId()){
             case R.id.update:
-                showUpdateDialog();
+                //showUpdateDialog();
+                Toast.makeText(getApplicationContext(),"Update Clicked",Toast.LENGTH_SHORT).show();
                 break;
             case R.id.delete:
                 showDeleteDialog();
@@ -168,7 +169,7 @@ public class ParentProfileActivity extends AppCompatActivity {
 
     }
 
-    private void showUpdateDialog() {
+   /* private void showUpdateDialog() {
 
         //variable to get Alert dialog:
         AlertDialog.Builder updateDialogParent = new AlertDialog.Builder(ParentProfileActivity.this);
@@ -258,6 +259,7 @@ public class ParentProfileActivity extends AppCompatActivity {
         });
 
     }
+    */
 
 
 

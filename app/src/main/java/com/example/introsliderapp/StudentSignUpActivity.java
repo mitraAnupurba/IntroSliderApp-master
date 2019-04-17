@@ -301,6 +301,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
     //NOTE FOR AYAN CHOUDHURY: the probllem is with this spinner:
     private void setSpinnerCoachingContent(String examName){
 
+        Log.d(TAG,"Enters Select Spinner Content");
         switch(examName){
 
             case "IIT-JEE":
@@ -308,39 +309,46 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),"coaching",Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener);
                 break;
 
             case "Medical Entrance Exams":
+                Log.d(TAG,"Enters Medical Entrance Exams");
                 ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,medicalEntranceInstitutes);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter1);
                 adapter1.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener1 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener1);
                 break;
 
             case "GATE-IES-ESE":
@@ -348,19 +356,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter2);
                 adapter2.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener2 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener2);
                 break;
 
             case "NEET-PG":
@@ -368,19 +379,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter3);
                 adapter3.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener3 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener3);
                 break;
 
             case "Comerce":
@@ -388,19 +402,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter4);
                 adapter4.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener4 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener4);
                 break;
 
             case "JRF-NET":
@@ -408,19 +425,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter5);
                 adapter5.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener5 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener5);
                 break;
 
             case "UPSC-ICS":
@@ -428,19 +448,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter6);
                 adapter6.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener6 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener6);
                 break;
 
             case "BANK-SBI-PO":
@@ -448,19 +471,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter7);
                 adapter7.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener7 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener7);
                 break;
 
             case "College Placements":
@@ -468,19 +494,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter8);
                 adapter8.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener8 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener8);
                 break;
 
             case "GRE-IELTS":
@@ -488,19 +517,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter9);
                 adapter9.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener9 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener9);
                 break;
 
             case "CAT-MAT":
@@ -508,19 +540,22 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 adapter10.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter10);
                 adapter10.notifyDataSetChanged();
-                spinnerCoaching.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                AdapterView.OnItemSelectedListener listener10 = new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        coachingName = parent.getItemAtPosition(position).toString();
-                        Log.d(TAG, coachingName);
-                        Toast.makeText(getApplicationContext(),coachingName,Toast.LENGTH_SHORT).show();
+
+                            coachingName = parent.getItemAtPosition(position).toString();
+                            Log.d(TAG, coachingName);
+                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
                     }
 
                     @Override
                     public void onNothingSelected(AdapterView<?> parent) {
 
                     }
-                });
+                };
+                spinnerCoaching.setOnItemSelectedListener(listener10);
                 break;
         }
 
@@ -582,7 +617,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                     if(task.isSuccessful()){
 
                         //here we will store the custom fields in firebase database and start the profile activity
-                        Student student = new Student(userName,email,phoneNumber,instituteName,examName,dob);
+                        Student student = new Student(userName,email,phoneNumber,instituteName,examName,dob,coachingName);
                         FirebaseDatabase.getInstance().getReference("users")
                         .child("student").child(FirebaseAuth.getInstance()
                                 .getCurrentUser().getUid()).setValue(student)
