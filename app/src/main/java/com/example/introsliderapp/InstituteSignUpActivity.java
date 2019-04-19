@@ -209,70 +209,70 @@ public class InstituteSignUpActivity extends AppCompatActivity implements View.O
         switch (instType){
             case "IIT-JEE":
                 IITJEEInstitute inst = new IITJEEInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst);
                 break;
 
             case "Medical Entrance Exams":
                 MedicalEntranceInstitute inst1 = new MedicalEntranceInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst1);
                 break;
 
             case "GATE-IES-ESE":
                 EngineeringExamInstitute inst2 = new EngineeringExamInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst2);
                 break;
 
             case "NEET-PG":
                 NeetPGInstitute inst3 = new NeetPGInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst3);
                 break;
 
             case "Comerce":
                 ComerceExamInstitute inst4 = new ComerceExamInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst4);
                 break;
 
             case "JRF-NET":
                 ScienceExamInstitute inst5 = new ScienceExamInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst5);
                 break;
 
             case "UPSC-ICS":
                 UpscInstitute inst6 = new UpscInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst6);
                 break;
 
             case "BANK-SBI-PO":
                 BankExamInstitute inst7 = new BankExamInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst7);
                 break;
 
             case "College Placements":
                 CollegePlacementTraininhInstitute inst8 =
                         new CollegePlacementTraininhInstitute(instName,instAddress,
-                        email,phNumber,instType);
+                        email,phNumber,instType,0.0f);
                 mRef.setValue(inst8);
                 break;
 
             case "GRE-IELTS":
                 GREInstitute inst9 =
                         new GREInstitute(instName,instAddress,
-                                email,phNumber,instType);
+                                email,phNumber,instType,0.0f);
                 mRef.setValue(inst9);
                 break;
 
             case "CAT-MAT":
                 ManagementExamInstitute inst10 =
                         new ManagementExamInstitute(instName,instAddress,
-                                email,phNumber,instType);
+                                email,phNumber,instType,0.0f);
                 mRef.setValue(inst10);
                 break;
             default:

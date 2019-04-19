@@ -5,7 +5,7 @@ import java.util.Comparator;
 
 //model class for the institute object passed to the firebase database:
 
-public class Institute implements Comparator<Institute> {
+public class Institute {
 
     String instituteName, instituteAddress, emailAddress,phoneNumber,instituteType;
     ArrayList<Float> ratingArray=  new ArrayList<>();
@@ -15,23 +15,22 @@ public class Institute implements Comparator<Institute> {
 
     }
     public Institute(String instituteName,String instituteAddress,
-                     String emailAddress,String phoneNumber,String instituteType){
+                     String emailAddress,String phoneNumber,String instituteType,float avg){
 
         this.instituteName = instituteName;
         this.instituteAddress =instituteAddress;
         this.emailAddress = emailAddress;
         this.phoneNumber = phoneNumber;
         this.instituteType = instituteType;
-
+        this.avg = avg;
     }
 
-    public void setRatingArray(float i){
-
-        ratingArray.add(i);
-        calculateAverage(i);
-
+    public void setRatingArray(float i) {
+       ratingArray.add(i);
+        calculateAverage();
     }
-    public void calculateAverage(float i){
+
+    public void calculateAverage(){
 
         float sum = 0.0f;
         for(int k=0;k<ratingArray.size();k++){
@@ -44,19 +43,34 @@ public class Institute implements Comparator<Institute> {
     }
 
     @Override
-    public int compare(Institute o1, Institute o2) {
-        if(o1.getAvg() > o2.getAvg())
-            return -1;
-        else
-            return 1;
+    public String toString() {
+        return instituteName;
     }
 
-    @Override
-    public String toString() {
-        return "Institute{" +
-                "instituteName='" + instituteName + '\'' +
-                '}';
+    public void setInstituteName(String instituteName) {
+        this.instituteName = instituteName;
     }
+
+    public void setInstituteAddress(String instituteAddress) {
+        this.instituteAddress = instituteAddress;
+    }
+
+    public void setEmailAddress(String emailAddress) {
+        this.emailAddress = emailAddress;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public String getInstituteType() {
+        return instituteType;
+    }
+
+    public void setInstituteType(String instituteType) {
+        this.instituteType = instituteType;
+    }
+
 
     public String getInstituteName() {
         return instituteName;
@@ -72,5 +86,9 @@ public class Institute implements Comparator<Institute> {
 
     public String getPhoneNumber() {
         return phoneNumber;
+    }
+
+    public void setAvg(float avg) {
+        this.avg = avg;
     }
 }

@@ -28,6 +28,7 @@ import com.example.introsliderapp.model.ComerceExamInstitute;
 import com.example.introsliderapp.model.EngineeringExamInstitute;
 import com.example.introsliderapp.model.GREInstitute;
 import com.example.introsliderapp.model.IITJEEInstitute;
+import com.example.introsliderapp.model.Institute;
 import com.example.introsliderapp.model.ManagementExamInstitute;
 import com.example.introsliderapp.model.MedicalEntranceInstitute;
 import com.example.introsliderapp.model.NeetPGInstitute;
@@ -43,6 +44,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+
+import java.util.Collections;
+import java.util.HashMap;
+
+import static com.example.introsliderapp.MainActivity.bankExam;
+import static com.example.introsliderapp.MainActivity.collegePlacementTraininh;
+import static com.example.introsliderapp.MainActivity.comerceExam;
+import static com.example.introsliderapp.MainActivity.engineeringExam;
+import static com.example.introsliderapp.MainActivity.gre;
+import static com.example.introsliderapp.MainActivity.iitjee;
+import static com.example.introsliderapp.MainActivity.managementExam;
+import static com.example.introsliderapp.MainActivity.medicalEntrance;
+import static com.example.introsliderapp.MainActivity.neetPG;
+import static com.example.introsliderapp.MainActivity.scienceExam;
+import static com.example.introsliderapp.MainActivity.upsc;
 
 //Class for the opearation's in students profile activity, like view data, update data,
 //rate institute, delete data, etc.
@@ -94,8 +110,25 @@ public class StudentProfileActivity extends AppCompatActivity {
         mAuth = FirebaseAuth.getInstance();
         uid = mAuth.getCurrentUser().getUid();
 
+
+        Log.d(TAG,iitjee.toString());
+        Log.d(TAG,medicalEntrance.toString());
+        Log.d(TAG,engineeringExam.toString());
+        Log.d(TAG,neetPG.toString());
+        Log.d(TAG,scienceExam.toString());
+        Log.d(TAG,comerceExam.toString());
+        Log.d(TAG,upsc.toString());
+        Log.d(TAG,bankExam.toString());
+        Log.d(TAG,collegePlacementTraininh.toString());
+        Log.d(TAG,managementExam.toString());
+        Log.d(TAG,gre.toString());
+
         //fetch data:
         fetchData();
+
+        Log.d(TAG,"mytag");
+
+        //initLists(examName);
 
 
 
@@ -197,7 +230,6 @@ public class StudentProfileActivity extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 examNameUpdatedValue = parent.getItemAtPosition(position).toString();
                 Log.d(TAG,examNameUpdatedValue);
-                initLists(examNameUpdatedValue);
                 setSpinnerCoachingContent(examNameUpdatedValue);
             }
 
@@ -271,139 +303,10 @@ public class StudentProfileActivity extends AppCompatActivity {
     //function to create and show the update dialog ends here.
 
 
-    //function to initialise the array lists of institutes:
-    private void initLists(final String examNameUpdatedValue){
 
-        DatabaseReference mRef =
-                FirebaseDatabase.getInstance().getReference("users")
-                        .child("institute").child(examNameUpdatedValue);
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+    //function to init lists:
 
-                switch(examNameUpdatedValue){
 
-                    case "IIT-JEE":
-                        StudentSignUpActivity.iitjeeInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            IITJEEInstitute inst = snapshot.getValue(IITJEEInstitute.class);
-                            StudentSignUpActivity.iitjeeInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.iitjeeInstitutes.toString());
-                        break;
-
-                    case "Medical Entrance Exams":
-                        StudentSignUpActivity.medicalEntranceInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            MedicalEntranceInstitute inst = snapshot.getValue(MedicalEntranceInstitute.class);
-                            StudentSignUpActivity.medicalEntranceInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.medicalEntranceInstitutes.toString());
-                        break;
-
-                    case "GATE-IES-ESE":
-                        StudentSignUpActivity.engineeringExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            EngineeringExamInstitute inst = snapshot.getValue(EngineeringExamInstitute.class);
-                            StudentSignUpActivity.engineeringExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.engineeringExamInstitutes.toString());
-                        break;
-
-                    case "NEET-PG":
-                        StudentSignUpActivity.neetPGInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            NeetPGInstitute inst = snapshot.getValue(NeetPGInstitute.class);
-                            StudentSignUpActivity.neetPGInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.neetPGInstitutes.toString());
-                        break;
-
-                    case "Comerce":
-                        StudentSignUpActivity.comerceExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ComerceExamInstitute inst = snapshot.getValue(ComerceExamInstitute.class);
-                            StudentSignUpActivity.comerceExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.comerceExamInstitutes.toString());
-                        break;
-
-                    case "JRF-NET":
-                        StudentSignUpActivity.scienceExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ScienceExamInstitute inst = snapshot.getValue(ScienceExamInstitute.class);
-                            StudentSignUpActivity.scienceExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.scienceExamInstitutes.toString());
-                        break;
-
-                    case "UPSC-ICS":
-                        StudentSignUpActivity.upscInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            UpscInstitute inst = snapshot.getValue(UpscInstitute.class);
-                            StudentSignUpActivity.upscInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.upscInstitutes.toString());
-                        break;
-
-                    case "BANK-SBI-PO":
-                        StudentSignUpActivity.bankExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            BankExamInstitute inst = snapshot.getValue(BankExamInstitute.class);
-                            StudentSignUpActivity.bankExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.bankExamInstitutes.toString());
-                        break;
-
-                    case "College Placements":
-                        StudentSignUpActivity.collegePlacementTraininhInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            CollegePlacementTraininhInstitute inst =
-                                    snapshot.getValue(CollegePlacementTraininhInstitute.class);
-                            StudentSignUpActivity.collegePlacementTraininhInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.collegePlacementTraininhInstitutes.toString());
-                        break;
-
-                    case "GRE-IELTS":
-                        StudentSignUpActivity.greInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            GREInstitute inst = snapshot.getValue(GREInstitute.class);
-                            StudentSignUpActivity.greInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.greInstitutes.toString());
-                        break;
-
-                    case "CAT-MAT":
-                        StudentSignUpActivity.managementExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ManagementExamInstitute inst = snapshot.getValue(ManagementExamInstitute.class);
-                            StudentSignUpActivity.managementExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,StudentSignUpActivity.managementExamInstitutes.toString());
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    //function to initialise the array lists of institutes:
 
     //function to set content of the spinner dynamically:
     private void setSpinnerCoachingContent(String examNameUpdatedValue){
@@ -412,7 +315,7 @@ public class StudentProfileActivity extends AppCompatActivity {
         switch(examNameUpdatedValue){
 
             case "IIT-JEE":
-                ArrayAdapter<IITJEEInstitute> adapter = new ArrayAdapter<IITJEEInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.iitjeeInstitutes);
+                ArrayAdapter<IITJEEInstitute> adapter = new ArrayAdapter<IITJEEInstitute>(this,  android.R.layout.simple_spinner_item,iitjee);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -422,7 +325,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -436,7 +339,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
             case "Medical Entrance Exams":
                 Log.d(TAG,"Enters Medical Entrance Exams");
-                ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.medicalEntranceInstitutes);
+                ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,medicalEntrance);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter1);
                 adapter1.notifyDataSetChanged();
@@ -446,7 +349,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -459,7 +362,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "GATE-IES-ESE":
-                ArrayAdapter<EngineeringExamInstitute> adapter2 = new ArrayAdapter<EngineeringExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.engineeringExamInstitutes);
+                ArrayAdapter<EngineeringExamInstitute> adapter2 = new ArrayAdapter<EngineeringExamInstitute>(this,  android.R.layout.simple_spinner_item,engineeringExam);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter2);
                 adapter2.notifyDataSetChanged();
@@ -469,7 +372,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -482,7 +385,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "NEET-PG":
-                ArrayAdapter<NeetPGInstitute> adapter3 = new ArrayAdapter<NeetPGInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.neetPGInstitutes);
+                ArrayAdapter<NeetPGInstitute> adapter3 = new ArrayAdapter<NeetPGInstitute>(this,  android.R.layout.simple_spinner_item,neetPG);
                 adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter3);
                 adapter3.notifyDataSetChanged();
@@ -492,7 +395,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -505,7 +408,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "Comerce":
-                ArrayAdapter<ComerceExamInstitute> adapter4 = new ArrayAdapter<ComerceExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.comerceExamInstitutes);
+                ArrayAdapter<ComerceExamInstitute> adapter4 = new ArrayAdapter<ComerceExamInstitute>(this,  android.R.layout.simple_spinner_item,comerceExam);
                 adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter4);
                 adapter4.notifyDataSetChanged();
@@ -515,7 +418,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -528,7 +431,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "JRF-NET":
-                ArrayAdapter<ScienceExamInstitute> adapter5 = new ArrayAdapter<ScienceExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.scienceExamInstitutes);
+                ArrayAdapter<ScienceExamInstitute> adapter5 = new ArrayAdapter<ScienceExamInstitute>(this,  android.R.layout.simple_spinner_item,scienceExam);
                 adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter5);
                 adapter5.notifyDataSetChanged();
@@ -538,7 +441,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -551,7 +454,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "UPSC-ICS":
-                ArrayAdapter<UpscInstitute> adapter6 = new ArrayAdapter<UpscInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.upscInstitutes);
+                ArrayAdapter<UpscInstitute> adapter6 = new ArrayAdapter<UpscInstitute>(this,  android.R.layout.simple_spinner_item,upsc);
                 adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter6);
                 adapter6.notifyDataSetChanged();
@@ -561,7 +464,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -574,7 +477,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "BANK-SBI-PO":
-                ArrayAdapter<BankExamInstitute> adapter7 = new ArrayAdapter<BankExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.bankExamInstitutes);
+                ArrayAdapter<BankExamInstitute> adapter7 = new ArrayAdapter<BankExamInstitute>(this,  android.R.layout.simple_spinner_item,bankExam);
                 adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter7);
                 adapter7.notifyDataSetChanged();
@@ -584,7 +487,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -597,7 +500,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "College Placements":
-                ArrayAdapter<CollegePlacementTraininhInstitute> adapter8 = new ArrayAdapter<CollegePlacementTraininhInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.collegePlacementTraininhInstitutes);
+                ArrayAdapter<CollegePlacementTraininhInstitute> adapter8 = new ArrayAdapter<CollegePlacementTraininhInstitute>(this,  android.R.layout.simple_spinner_item,collegePlacementTraininh);
                 adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter8);
                 adapter8.notifyDataSetChanged();
@@ -607,7 +510,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -620,7 +523,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "GRE-IELTS":
-                ArrayAdapter<GREInstitute> adapter9 = new ArrayAdapter<GREInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.greInstitutes);
+                ArrayAdapter<GREInstitute> adapter9 = new ArrayAdapter<GREInstitute>(this,  android.R.layout.simple_spinner_item,gre);
                 adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter9);
                 adapter9.notifyDataSetChanged();
@@ -630,7 +533,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -643,7 +546,7 @@ public class StudentProfileActivity extends AppCompatActivity {
                 break;
 
             case "CAT-MAT":
-                ArrayAdapter<ManagementExamInstitute> adapter10 = new ArrayAdapter<ManagementExamInstitute>(this,  android.R.layout.simple_spinner_item,StudentSignUpActivity.managementExamInstitutes);
+                ArrayAdapter<ManagementExamInstitute> adapter10 = new ArrayAdapter<ManagementExamInstitute>(this,  android.R.layout.simple_spinner_item,managementExam);
                 adapter10.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerStudentCoachingDialog.setAdapter(adapter10);
                 adapter10.notifyDataSetChanged();
@@ -653,7 +556,7 @@ public class StudentProfileActivity extends AppCompatActivity {
 
                         coachingNameUpdatedValue = parent.getItemAtPosition(position).toString();
                         Log.d(TAG, coachingNameUpdatedValue);
-                        Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -703,9 +606,15 @@ public class StudentProfileActivity extends AppCompatActivity {
                 DatabaseReference mRef = FirebaseDatabase.getInstance()
                         .getReference("users").child("student").child(uid);
 
+                DatabaseReference mRefDeleteFromInst = FirebaseDatabase.getInstance()
+                        .getReference("users").child("institute")
+                        .child(examName).child(coachingName)
+                        .child("students of this institute").child(uid);
+
                 //firebase current user to be deleted:
                 FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
+                mRefDeleteFromInst.removeValue();
                 mRef.removeValue();
                 mAuth.signOut();
                 user.delete().addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -747,10 +656,25 @@ public class StudentProfileActivity extends AppCompatActivity {
 
         android.app.AlertDialog.Builder ratingDialog = new android.app.AlertDialog.Builder(StudentProfileActivity.this);
         View view = getLayoutInflater().inflate(R.layout.rating_layout,null);
+        //initListsForUpdate(examName);
+
+       /* Log.d(TAG,StudentSignUpActivity.iitjeeInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.medicalEntranceInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.engineeringExamInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.neetPGInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.scienceExamInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.comerceExamInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.upscInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.bankExamInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.collegePlacementTraininhInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.managementExamInstitutes.toString());
+        Log.d(TAG,StudentSignUpActivity.greInstitutes.toString());*/
 
         //getting the views:
         ratingBar = view.findViewById(R.id.rating_bar);
         reviewStudentEdittext = view.findViewById(R.id.review_edittext);
+
+
 
         ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
@@ -770,8 +694,52 @@ public class StudentProfileActivity extends AppCompatActivity {
         ratingDialog.setPositiveButton("SUBMIT", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.d(TAG,"\n inside set positve button Listener \n");
+
+
+                //data base reference where the student, who has submitted the
+                //rating , his information will be stored.
+                DatabaseReference mRef = FirebaseDatabase.getInstance()
+                        .getReference("users").child("institute")
+                        .child(examName).child(coachingName)
+                        .child("students of this institute").child(uid);
+
+
+
                 studentReview = reviewStudentEdittext.getText().toString().trim();
+
+                //HashMap to store the institute:
+                HashMap<String,Object> studentOfInstitute = new HashMap<>();
+                studentOfInstitute.put("rating submitted",studentRating);
+                studentOfInstitute.put("Review submitted",studentReview);
+                studentOfInstitute.put("Student Name",userName);
+                studentOfInstitute.put("Phone Number",phNumber);
+                //studentOfInstitute.put("D.O.B",dob);
+                studentOfInstitute.put("Email Address",email);
+                studentOfInstitute.put("Exam Preparing For",examName);
+                studentOfInstitute.put("Institute where Studying",instName);
+                //hash map to store the institute, ends here.
+
+
+                //setting a value to the reference:
+                mRef.setValue(studentOfInstitute).addOnCompleteListener(new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+                        if(task.isSuccessful()){
+
+
+                            Toast.makeText(getApplicationContext(),"rating submitted successfully",Toast.LENGTH_SHORT).show();
+
+
+                            //initialising the array lists, again for getting the exact current information::
+                        }
+                    }
+                });
+
+                
+
+
+                Log.d(TAG,"\n inside set positve button Listener \n");
+
                 Log.d(TAG,studentReview+"\n");
             }
         });
@@ -783,8 +751,12 @@ public class StudentProfileActivity extends AppCompatActivity {
         });
         ratingDialog.setCancelable(false);
         ratingDialog.show();
+
+
+        //sortLists(examName,studentRating);
     }
     //function to show the rating dialog and rate institute ends here.
+
 
 
 

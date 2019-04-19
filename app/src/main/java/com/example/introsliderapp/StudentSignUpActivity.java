@@ -51,6 +51,18 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
+import static com.example.introsliderapp.MainActivity.bankExam;
+import static com.example.introsliderapp.MainActivity.collegePlacementTraininh;
+import static com.example.introsliderapp.MainActivity.comerceExam;
+import static com.example.introsliderapp.MainActivity.engineeringExam;
+import static com.example.introsliderapp.MainActivity.gre;
+import static com.example.introsliderapp.MainActivity.iitjee;
+import static com.example.introsliderapp.MainActivity.managementExam;
+import static com.example.introsliderapp.MainActivity.medicalEntrance;
+import static com.example.introsliderapp.MainActivity.neetPG;
+import static com.example.introsliderapp.MainActivity.scienceExam;
+import static com.example.introsliderapp.MainActivity.upsc;
+
 //class for the student sign up page functionality:
 
 public class StudentSignUpActivity extends AppCompatActivity implements View.OnClickListener{
@@ -87,7 +99,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
 
     //arraylist variables for different institutes:
-    public static List<IITJEEInstitute> iitjeeInstitutes = new ArrayList<>();
+    /*public static List<IITJEEInstitute> iitjeeInstitutes = new ArrayList<>();
     public static List<MedicalEntranceInstitute> medicalEntranceInstitutes = new ArrayList<>();
     public static List<EngineeringExamInstitute> engineeringExamInstitutes = new ArrayList<>();
     public static List<NeetPGInstitute> neetPGInstitutes = new ArrayList<>();
@@ -100,7 +112,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
     public static List<GREInstitute> greInstitutes = new ArrayList<>();
     public static List<ManagementExamInstitute>
             managementExamInstitutes = new ArrayList<>();
-    public static List<Institute> Institutes = new ArrayList<>();
+    public static List<Institute> Institutes = new ArrayList<>();*/
 
 
     @Override
@@ -109,6 +121,19 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
         setContentView(R.layout.activity_student_sign_up);
 
         initViews();
+
+        Log.d(TAG,iitjee.toString());
+        Log.d(TAG,medicalEntrance.toString());
+        Log.d(TAG,engineeringExam.toString());
+        Log.d(TAG,neetPG.toString());
+        Log.d(TAG,scienceExam.toString());
+        Log.d(TAG,comerceExam.toString());
+        Log.d(TAG,upsc.toString());
+        Log.d(TAG,bankExam.toString());
+        Log.d(TAG,collegePlacementTraininh.toString());
+        Log.d(TAG,managementExam.toString());
+        Log.d(TAG,gre.toString());
+
 
         //taking the array adapter object that converts a dropdown ment
         //to a list of views:
@@ -120,7 +145,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 examName = parent.getItemAtPosition(position).toString();
                 Log.d(TAG, examName);
-                initLists(examName);
+                //initLists(examName);
                 setSpinnerCoachingContent(examName);
             }
 
@@ -162,139 +187,6 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
     }
     //function to initialise the views ends here.
 
-    //function to initialise the array lists of institutes:
-    private void initLists(final String examName){
-
-        DatabaseReference mRef =
-                FirebaseDatabase.getInstance().getReference("users")
-                .child("institute").child(examName);
-        mRef.addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-
-                switch(examName){
-
-                    case "IIT-JEE":
-                        iitjeeInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            IITJEEInstitute inst = snapshot.getValue(IITJEEInstitute.class);
-                            iitjeeInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,iitjeeInstitutes.toString());
-                        break;
-
-                    case "Medical Entrance Exams":
-                        medicalEntranceInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            MedicalEntranceInstitute inst = snapshot.getValue(MedicalEntranceInstitute.class);
-                            medicalEntranceInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,medicalEntranceInstitutes.toString());
-                        break;
-
-                    case "GATE-IES-ESE":
-                        engineeringExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            EngineeringExamInstitute inst = snapshot.getValue(EngineeringExamInstitute.class);
-                            engineeringExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,engineeringExamInstitutes.toString());
-                        break;
-
-                    case "NEET-PG":
-                        neetPGInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            NeetPGInstitute inst = snapshot.getValue(NeetPGInstitute.class);
-                            neetPGInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,neetPGInstitutes.toString());
-                        break;
-
-                    case "Comerce":
-                        comerceExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ComerceExamInstitute inst = snapshot.getValue(ComerceExamInstitute.class);
-                            comerceExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,comerceExamInstitutes.toString());
-                        break;
-
-                    case "JRF-NET":
-                        scienceExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ScienceExamInstitute inst = snapshot.getValue(ScienceExamInstitute.class);
-                            scienceExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,comerceExamInstitutes.toString());
-                        break;
-
-                    case "UPSC-ICS":
-                        upscInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            UpscInstitute inst = snapshot.getValue(UpscInstitute.class);
-                            upscInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,upscInstitutes.toString());
-                        break;
-
-                    case "BANK-SBI-PO":
-                        bankExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            BankExamInstitute inst = snapshot.getValue(BankExamInstitute.class);
-                            bankExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,bankExamInstitutes.toString());
-                        break;
-
-                    case "College Placements":
-                        collegePlacementTraininhInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            CollegePlacementTraininhInstitute inst =
-                                    snapshot.getValue(CollegePlacementTraininhInstitute.class);
-                            collegePlacementTraininhInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,collegePlacementTraininhInstitutes.toString());
-                        break;
-
-                    case "GRE-IELTS":
-                        greInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            GREInstitute inst = snapshot.getValue(GREInstitute.class);
-                            greInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,greInstitutes.toString());
-                        break;
-
-                    case "CAT-MAT":
-                        managementExamInstitutes.clear();
-                        for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                            ManagementExamInstitute inst = snapshot.getValue(ManagementExamInstitute.class);
-                            managementExamInstitutes.add(inst);
-
-                        }
-                        Log.d(TAG,managementExamInstitutes.toString());
-                        break;
-                }
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
-    }
-    //function to initialise the array lists of institutes:
 
 
     //function to set the content of dynamic spinner named : spinner coaching
@@ -305,7 +197,8 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
         switch(examName){
 
             case "IIT-JEE":
-                ArrayAdapter<IITJEEInstitute> adapter = new ArrayAdapter<IITJEEInstitute>(this,  android.R.layout.simple_spinner_item,iitjeeInstitutes);
+                Log.d(TAG,"Enters IIT-JEE Exams");
+                ArrayAdapter<IITJEEInstitute> adapter = new ArrayAdapter<IITJEEInstitute>(this,  android.R.layout.simple_spinner_item,iitjee);
                 adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter);
                 adapter.notifyDataSetChanged();
@@ -315,7 +208,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -329,7 +222,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
             case "Medical Entrance Exams":
                 Log.d(TAG,"Enters Medical Entrance Exams");
-                ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,medicalEntranceInstitutes);
+                ArrayAdapter<MedicalEntranceInstitute> adapter1 = new ArrayAdapter<MedicalEntranceInstitute>(this,  android.R.layout.simple_spinner_item,medicalEntrance);
                 adapter1.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter1);
                 adapter1.notifyDataSetChanged();
@@ -339,7 +232,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -352,7 +245,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "GATE-IES-ESE":
-                ArrayAdapter<EngineeringExamInstitute> adapter2 = new ArrayAdapter<EngineeringExamInstitute>(this,  android.R.layout.simple_spinner_item,engineeringExamInstitutes);
+                ArrayAdapter<EngineeringExamInstitute> adapter2 = new ArrayAdapter<EngineeringExamInstitute>(this,  android.R.layout.simple_spinner_item,engineeringExam);
                 adapter2.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter2);
                 adapter2.notifyDataSetChanged();
@@ -362,7 +255,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -375,7 +268,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "NEET-PG":
-                ArrayAdapter<NeetPGInstitute> adapter3 = new ArrayAdapter<NeetPGInstitute>(this,  android.R.layout.simple_spinner_item,neetPGInstitutes);
+                ArrayAdapter<NeetPGInstitute> adapter3 = new ArrayAdapter<NeetPGInstitute>(this,  android.R.layout.simple_spinner_item,neetPG);
                 adapter3.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter3);
                 adapter3.notifyDataSetChanged();
@@ -385,7 +278,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -398,7 +291,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "Comerce":
-                ArrayAdapter<ComerceExamInstitute> adapter4 = new ArrayAdapter<ComerceExamInstitute>(this,  android.R.layout.simple_spinner_item,comerceExamInstitutes);
+                ArrayAdapter<ComerceExamInstitute> adapter4 = new ArrayAdapter<ComerceExamInstitute>(this,  android.R.layout.simple_spinner_item,comerceExam);
                 adapter4.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter4);
                 adapter4.notifyDataSetChanged();
@@ -408,7 +301,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -421,7 +314,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "JRF-NET":
-                ArrayAdapter<ScienceExamInstitute> adapter5 = new ArrayAdapter<ScienceExamInstitute>(this,  android.R.layout.simple_spinner_item,scienceExamInstitutes);
+                ArrayAdapter<ScienceExamInstitute> adapter5 = new ArrayAdapter<ScienceExamInstitute>(this,  android.R.layout.simple_spinner_item,scienceExam);
                 adapter5.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter5);
                 adapter5.notifyDataSetChanged();
@@ -431,7 +324,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -444,7 +337,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "UPSC-ICS":
-                ArrayAdapter<UpscInstitute> adapter6 = new ArrayAdapter<UpscInstitute>(this,  android.R.layout.simple_spinner_item,upscInstitutes);
+                ArrayAdapter<UpscInstitute> adapter6 = new ArrayAdapter<UpscInstitute>(this,  android.R.layout.simple_spinner_item,upsc);
                 adapter6.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter6);
                 adapter6.notifyDataSetChanged();
@@ -454,7 +347,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -467,7 +360,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "BANK-SBI-PO":
-                ArrayAdapter<BankExamInstitute> adapter7 = new ArrayAdapter<BankExamInstitute>(this,  android.R.layout.simple_spinner_item,bankExamInstitutes);
+                ArrayAdapter<BankExamInstitute> adapter7 = new ArrayAdapter<BankExamInstitute>(this,  android.R.layout.simple_spinner_item,bankExam);
                 adapter7.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter7);
                 adapter7.notifyDataSetChanged();
@@ -477,7 +370,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -490,7 +383,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "College Placements":
-                ArrayAdapter<CollegePlacementTraininhInstitute> adapter8 = new ArrayAdapter<CollegePlacementTraininhInstitute>(this,  android.R.layout.simple_spinner_item,collegePlacementTraininhInstitutes);
+                ArrayAdapter<CollegePlacementTraininhInstitute> adapter8 = new ArrayAdapter<CollegePlacementTraininhInstitute>(this,  android.R.layout.simple_spinner_item,collegePlacementTraininh);
                 adapter8.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter8);
                 adapter8.notifyDataSetChanged();
@@ -500,7 +393,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -513,7 +406,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "GRE-IELTS":
-                ArrayAdapter<GREInstitute> adapter9 = new ArrayAdapter<GREInstitute>(this,  android.R.layout.simple_spinner_item,greInstitutes);
+                ArrayAdapter<GREInstitute> adapter9 = new ArrayAdapter<GREInstitute>(this,  android.R.layout.simple_spinner_item,gre);
                 adapter9.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter9);
                 adapter9.notifyDataSetChanged();
@@ -523,7 +416,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -536,7 +429,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
                 break;
 
             case "CAT-MAT":
-                ArrayAdapter<ManagementExamInstitute> adapter10 = new ArrayAdapter<ManagementExamInstitute>(this,  android.R.layout.simple_spinner_item,managementExamInstitutes);
+                ArrayAdapter<ManagementExamInstitute> adapter10 = new ArrayAdapter<ManagementExamInstitute>(this,  android.R.layout.simple_spinner_item,managementExam);
                 adapter10.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
                 spinnerCoaching.setAdapter(adapter10);
                 adapter10.notifyDataSetChanged();
@@ -546,7 +439,7 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
 
                             coachingName = parent.getItemAtPosition(position).toString();
                             Log.d(TAG, coachingName);
-                            Toast.makeText(getApplicationContext(), "coaching", Toast.LENGTH_SHORT).show();
+
 
                     }
 
@@ -670,6 +563,11 @@ public class StudentSignUpActivity extends AppCompatActivity implements View.OnC
         }
         else if (password.isEmpty() || confirmPassword.isEmpty() || phNumber.isEmpty() || userName.isEmpty() || dob.isEmpty() || instName.isEmpty()) {
             Toast.makeText(getApplicationContext(),"none of the fields can be empty",Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        else if(phNumber.length() != 10){
+            phoneNumberSignUp.setError("Phone number length must be 10 digits");
+            phoneNumberSignUp.requestFocus();
             return false;
         }
         else if (!password.equals(confirmPassword)) {

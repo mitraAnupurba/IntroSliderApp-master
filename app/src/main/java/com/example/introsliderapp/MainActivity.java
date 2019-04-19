@@ -31,6 +31,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
+import java.util.List;
 //class for the main app dashboard display:
 
 
@@ -46,7 +47,21 @@ public class MainActivity extends AppCompatActivity {
     String adminEmail, adminPassword;
 
 
-
+    //arraylist variables for different institutes:
+    public static List<IITJEEInstitute> iitjee = new ArrayList<>();
+    public static List<MedicalEntranceInstitute> medicalEntrance = new ArrayList<>();
+    public static List<EngineeringExamInstitute> engineeringExam = new ArrayList<>();
+    public static List<NeetPGInstitute> neetPG = new ArrayList<>();
+    public static List<ComerceExamInstitute> comerceExam = new ArrayList<>();
+    public static List<ScienceExamInstitute> scienceExam = new ArrayList<>();
+    public static List<UpscInstitute> upsc = new ArrayList<>();
+    public static List<BankExamInstitute> bankExam = new ArrayList<>();
+    public static List<CollegePlacementTraininhInstitute>
+            collegePlacementTraininh = new ArrayList<>();
+    public static List<GREInstitute> gre = new ArrayList<>();
+    public static List<ManagementExamInstitute>
+            managementExam = new ArrayList<>();
+    //public static List<Institute> Institutes = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,12 +74,265 @@ public class MainActivity extends AppCompatActivity {
         Admin.createObject(adminEmail,adminPassword);
         Log.d(TAG,adminEmail+adminPassword);
 
-        //DatabaseReference mRef = FirebaseDatabase.getInstance().
-                //getReference("users").child("institute").child("IIT-JEE");
+        initLists();
+        //checkNull();
+
+        //displaying logs for init institute  call:
+
+        Log.d(TAG,"diaplay 1 ");
+        Log.d(TAG,iitjee.toString());
+        Log.d(TAG,medicalEntrance.toString());
+        Log.d(TAG,engineeringExam.toString());
+        Log.d(TAG,neetPG.toString());
+        Log.d(TAG,scienceExam.toString());
+        Log.d(TAG,comerceExam.toString());
+        Log.d(TAG,upsc.toString());
+        Log.d(TAG,bankExam.toString());
+        Log.d(TAG,collegePlacementTraininh.toString());
+        Log.d(TAG,managementExam.toString());
+        Log.d(TAG,gre.toString());
+    }
+
+
+    private void initLists(){
+
+
+        //for IITJEE:
+        DatabaseReference mRefiitjee = FirebaseDatabase.getInstance().
+                getReference("users").child("institute").child("IIT-JEE");
+        mRefiitjee.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                iitjee.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    IITJEEInstitute inst = snapshot.getValue(IITJEEInstitute.class);
+                    iitjee.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+        //for medical entrance examinations:
+        DatabaseReference mRefMedical = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("Medical Entrance Exams");
+
+        mRefMedical.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                medicalEntrance.clear();
+                for(DataSnapshot snapshot: dataSnapshot.getChildren()){
+                    MedicalEntranceInstitute inst =
+                            snapshot.getValue(MedicalEntranceInstitute.class);
+                    medicalEntrance.add(inst);
+
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for engineering entrance examinations:
+        final DatabaseReference mRefEngg = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("GATE-IES-ESE");
+        mRefEngg.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                engineeringExam.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    EngineeringExamInstitute inst =
+                            snapshot.getValue(EngineeringExamInstitute.class);
+                    engineeringExam.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for Neet PG :
+        final DatabaseReference mRefNeetPg = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("NEET-PG");
+        mRefNeetPg.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                neetPG.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    NeetPGInstitute inst =
+                            snapshot.getValue(NeetPGInstitute.class);
+                    neetPG.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for comerce exam institutes:
+        final DatabaseReference mRefComerce = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("Comerce");
+        mRefComerce.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                comerceExam.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    ComerceExamInstitute inst =
+                            snapshot.getValue(ComerceExamInstitute.class);
+                    comerceExam.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for science exam institutes:
+        final DatabaseReference mRefScience = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("JRF-NET");
+        mRefScience.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                scienceExam.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    ScienceExamInstitute inst =
+                            snapshot.getValue(ScienceExamInstitute.class);
+                    scienceExam.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for upsc/ics:
+        final DatabaseReference mRefUpscIcs = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("UPSC-ICS");
+        mRefUpscIcs.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                upsc.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    UpscInstitute inst =
+                            snapshot.getValue(UpscInstitute.class);
+                    upsc.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for bank exams:
+        final DatabaseReference mRefBank = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("BANK-SBI-PO");
+        mRefBank.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                bankExam.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    BankExamInstitute inst =
+                            snapshot.getValue(BankExamInstitute.class);
+                    bankExam.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for college placements:
+        final DatabaseReference mRefCollegePlacement = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("College Placements");
+        mRefCollegePlacement.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                collegePlacementTraininh.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    CollegePlacementTraininhInstitute inst =
+                            snapshot.getValue(CollegePlacementTraininhInstitute.class);
+                    collegePlacementTraininh.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for GRE IELTS:
+        final DatabaseReference mRefGre = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("GRE-IELTS");
+        mRefGre.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                gre.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    GREInstitute inst =
+                            snapshot.getValue(GREInstitute.class);
+                    gre.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        //for management institute:
+        final DatabaseReference mRefMgmt = FirebaseDatabase.getInstance()
+                .getReference("users").child("institute").child("CAT-MAT");
+        mRefMgmt.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                managementExam.clear();
+                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    ManagementExamInstitute inst =
+                            snapshot.getValue(ManagementExamInstitute.class);
+                    managementExam.add(inst);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
 
 
 
     }
+
+    /*private void checkNull(){
+
+
+        //for IITJEE institutes:
+        for(int i=0;i<iitjee.size();i++){
+            if(iitjee.get(i) == null){
+                iitjee.remove(i);
+            }
+        }
+        Log.d(TAG,iitjee.toString());
+
+    }*/
 
     //method implementation for the load slides button:
     public void loadSlides(View view) {
@@ -77,6 +345,24 @@ public class MainActivity extends AppCompatActivity {
 
     //method for the locateInstitutes button:
     public void loadInstitutes(View view) {
+
+        initLists();
+        //checkNull();
+        //displaying logs for init institute  call 2:
+
+        Log.d(TAG,"diaplay 2 ");
+        Log.d(TAG,iitjee.toString());
+        Log.d(TAG,medicalEntrance.toString());
+        Log.d(TAG,engineeringExam.toString());
+        Log.d(TAG,neetPG.toString());
+        Log.d(TAG,scienceExam.toString());
+        Log.d(TAG,comerceExam.toString());
+        Log.d(TAG,upsc.toString());
+        Log.d(TAG,bankExam.toString());
+        Log.d(TAG,collegePlacementTraininh.toString());
+        Log.d(TAG,managementExam.toString());
+        Log.d(TAG,gre.toString());
+
         startActivity(new Intent(this,FindInstituteActivity.class));
 
     }
@@ -86,6 +372,8 @@ public class MainActivity extends AppCompatActivity {
     //method for the institute sign up button:
     public void loadInstituteLogin(View view) {
 
+        initLists();
+        //checkNull();
         startActivity(new Intent(this,InstituteLoginActivity.class));
 
     }
@@ -94,6 +382,9 @@ public class MainActivity extends AppCompatActivity {
     //method for the student sign up button:
     public void loadStudentLogin(View view) {
 
+        initLists();
+
+        //checkNull();
         startActivity(new Intent(this,StudentLoginActivity.class));
 
     }
@@ -102,6 +393,8 @@ public class MainActivity extends AppCompatActivity {
     //method for the parent sign up button:
     public void loadParentLogin(View view) {
 
+        initLists();
+        //checkNull();
         startActivity(new Intent(this,ParentLoginActivity.class));
 
     }
@@ -110,6 +403,8 @@ public class MainActivity extends AppCompatActivity {
     //method for the admin sign up button:
     public void loadAdminLogin(View view) {
 
+        initLists();
+        //checkNull();
         startActivity(new Intent(this,AdminLoginActivity.class));
 
     }

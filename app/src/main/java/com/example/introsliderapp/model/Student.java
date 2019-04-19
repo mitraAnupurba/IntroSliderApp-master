@@ -17,9 +17,8 @@ public class Student {
         this.examName = examName;
         this.dob = dob;
         this.coachingInstituteName = coachingInstituteName;
-
-
     }
+
 
     public Student() {
     }
@@ -58,5 +57,13 @@ public class Student {
 
     public void setReview(String review) {
         this.review = review;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public String getReview() {
+        return review;
     }
 }

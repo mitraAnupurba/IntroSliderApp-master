@@ -9,6 +9,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".ManagementInstitutesView"></activity>
+        <activity android:name=".GreIeltaInstitutesView" />
+        <activity android:name=".PlacementTrainingInstituteView" />
+        <activity android:name=".BankExamInstituteView" />
+        <activity android:name=".UpscExamInstituteView" />
+        <activity android:name=".ScienceExamInstitutesView" />
+        <activity android:name=".ComerceInstitutesView" />
+        <activity android:name=".MedicalPGInstituteView" />
+        <activity android:name=".EngineeringInstitutesView" />
+        <activity android:name=".MedicalInstitutesView" />
+        <activity android:name=".IITJEEInstitutesView" />
         <activity android:name=".AdminProfileActivity" />
         <activity android:name=".InstituteProfileActivity" />
         <activity android:name=".InstituteSignUpActivity" />
