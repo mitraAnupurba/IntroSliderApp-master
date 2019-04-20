@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/color_1"
+    tools:context=".InstituteProfileActivity">
+
+
+    <Button
+        android:id="@+id/logout_button_institute"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="LOGOUT AS INSTITUTE"
+        android:textSize="30sp"
+        android:background="@drawable/custombutton"
+        android:layout_centerInParent="true"
+        android:textColor="@android:color/white"
+        android:textAlignment="center"
+        />
+
+
+</RelativeLayout>
